@@ -1,0 +1,6 @@
+.idea/
+LICENSE
+*.iml
+pom.xml.versionsBackup
+target/
+
