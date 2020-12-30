@@ -10,7 +10,7 @@ Add a dependency to `com.github.vincentrussell:jenkins-dependency-plugin`.
 <dependency>
    <groupId>com.github.vincentrussell</groupId>
    <artifactId>jenkins-dependency-plugin</artifactId>
-   <version>1.0</version>
+   <version>1.1</version>
 </dependency>
 ```
 
@@ -21,7 +21,7 @@ Add a dependency to `com.github.vincentrussell:jenkins-dependency-plugin`.
 
   The easiest way to use this plugin is to just use it from the command line.
 ```
-mvn com.github.vincentrussell:jenkins-dependency-plugin:1.0:get -DdownloadDir=/tmp -Dartifact=junit:1.47
+mvn com.github.vincentrussell:jenkins-dependency-plugin:1.1:get -DdownloadDir=/tmp -Dartifact=junit:1.47
 
 ```
 | Option | Description  |
