@@ -42,3 +42,10 @@ mvn com.github.vincentrussell:jenkins-dependency-plugin:1.0:get -DdownloadDir=/t
 
 - Initial Release
 
+## [1.1](https://github.com/vincentrussell/jenkins-dependency-plugin/tree/jenkins-dependency-plugin-1.1) (2020-12-30)
+
+**Bugs:**
+
+- Ignore optional parameters in jenkins plugins manifests, i.e: workflow-api:2.40;**resolution:=optional**,workflow-step-api:2.22;**resolution:=optional**
+
+

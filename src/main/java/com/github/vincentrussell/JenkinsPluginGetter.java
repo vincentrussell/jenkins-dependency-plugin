@@ -2,6 +2,7 @@ package com.github.vincentrussell;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
@@ -194,8 +195,10 @@ public class JenkinsPluginGetter {
             String[] deps = dependencies.split(",");
             return Lists.transform(Lists.newArrayList(deps), new Function<String, Artifact>() {
                 @Override
+                @SuppressFBWarnings("NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
                 public Artifact apply(final String input) {
-                    String[] tokens = StringUtils.split( input, ":" );
+                    final String inputWithoutOptionalParameters = input.split(";")[0];
+                    String[] tokens = StringUtils.split(inputWithoutOptionalParameters, ":" );
                     String groupId = null;
                     String artifactId = null;
                     String version = null;

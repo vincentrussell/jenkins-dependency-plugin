@@ -136,6 +136,33 @@ public class GetMojoTest extends AbstractMojoTestCase {
     }
 
     @Test
+    public void testDownloadArtifactWithAdditionalPluginParameters() throws Exception {
+        File downloadDir = temporaryFolder.newFolder();
+
+        String config = " <artifact>com.github.vincentrussell:jenkins-plugin1:1.1:hpi</artifact>\n" +
+                "<downloadDir>"+ downloadDir.getAbsolutePath() + "</downloadDir>";
+
+        String url = "http://localhost:" + httpPort + NEXUS_URL_REPOSITORY_THIRDPARTY;
+        MavenProject mavenProject = readMavenProject(new TestProjectConfig(temporaryFolder).getFile(config, url).getParentFile(), url);
+        MavenSession session = finishSessionCreation(newMavenSession( mavenProject ), mavenProject.getRemoteArtifactRepositories());
+        createMavenFiles(jettyNexusBaseDir, "com.github.vincentrussell", "jenkins-plugin1", "1.1", "com.github.vincentrussell:jenkins-plugin1:1.2;resolution:=optional,com.github.vincentrussell:jenkins-plugin1:1.3;resolution:=optional");
+        createMavenFiles(jettyNexusBaseDir, "com.github.vincentrussell", "jenkins-plugin1", "1.2", "com.github.vincentrussell:jenkins-plugin1:1.1");
+        createMavenFiles(jettyNexusBaseDir, "com.github.vincentrussell", "jenkins-plugin1", "1.3", "com.github.vincentrussell:jenkins-plugin1:1.1");
+
+        MojoExecution execution = newMojoExecution( "get" );
+        GetMojo getMojo = (GetMojo) lookupConfiguredMojo( session, execution );
+
+        assertTrue(downloadDir.listFiles().length == 0);
+
+        getMojo.execute();
+
+        assertTrue(Paths.get(downloadDir.getAbsolutePath(), "com/github/vincentrussell/jenkins-plugin1/1.1/jenkins-plugin1-1.1.hpi").toFile().exists());
+        assertTrue(Paths.get(downloadDir.getAbsolutePath(), "com/github/vincentrussell/jenkins-plugin1/1.2/jenkins-plugin1-1.2.hpi").toFile().exists());
+        assertTrue(Paths.get(downloadDir.getAbsolutePath(), "com/github/vincentrussell/jenkins-plugin1/1.3/jenkins-plugin1-1.3.hpi").toFile().exists());
+    }
+
+
+    @Test
     public void testDownloadArtifactWithoutSpecifyingGroupId() throws Exception {
         File downloadDir = temporaryFolder.newFolder();
 
